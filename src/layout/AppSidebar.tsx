@@ -53,12 +53,12 @@ const navItems: NavItem[] = [
   {
     icon: <BoxLineIcon />,
     name: "ส่งไฟล์ เพื่อพิมพ์สลักหลัง",
-    path: "/EndorseRecord",
+    path: "/Printing",
   },
   {
     icon: <BoxLineIcon />,
     name: "บันทึกสลักหลัง",
-    path: "/Printing",
+    path: "/EndorseRecord",
   },
   // -------- Inbox (ใช้ box-line.svg) ----------
   {

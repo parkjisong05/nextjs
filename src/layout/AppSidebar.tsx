@@ -50,6 +50,16 @@ const navItems: NavItem[] = [
     name: "Monitoring",
     path: "/Monitoring",
   },
+  {
+    icon: <BoxLineIcon />,
+    name: "ส่งไฟล์ เพื่อพิมพ์สลักหลัง",
+    path: "/EndorseRecord",
+  },
+  {
+    icon: <BoxLineIcon />,
+    name: "บันทึกสลักหลัง",
+    path: "/Printing",
+  },
   // -------- Inbox (ใช้ box-line.svg) ----------
   {
     icon: <ListIcon />,         // ใช้ SVG เดิม

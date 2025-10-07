@@ -1,0 +1,265 @@
+https://tailadmin.com/docs
+
+# Build for production
+npm run deploy:build
+
+# Test standalone build
+npm run start:standalone
+
+npm run build:production
+
+
+# Development mode
+npm run dev
+
+# Production build
+npm run build
+npm start
+
+
+  // "scripts": {
+  //   "dev": "next dev",
+  //   "build": "next build",
+  //   "start": "next start",
+  //   "lint": "next lint"
+  // },
+
+Template : TailAdmin Next.js (Open-Source For Personal and Commercial Use)
+เทคโนโลยีหลัก
+ - Next.js 15 รองรับ SSR, SSG และ React Server Components เพื่อประสิทธิภาพการเรนเดอร์
+ - Tailwind CSS 4 ให้ utility class พร้อม Dark/Light Mode สำเร็จรูป
+ - React 19 + TypeScript เพิ่ม type-safety และเครื่องมือพัฒนา
+ - ApexCharts, JS Vector Map
+
+1. Utility Classes
+// Background colors
+<div className="bg-primary-custom">Primary Background</div>
+<div className="bg-primary-100-custom">Light Primary</div>
+<div className="bg-primary-600-custom">Dark Primary</div>
+
+// Text colors
+<h1 className="text-primary-custom">Primary Text</h1>
+<p className="text-primary-800-custom">Dark Primary Text</p>
+
+// Border colors
+<div className="border-2 border-primary-custom">Primary Border</div>
+
+2. Component Classes
+// Buttons
+<button className="btn-primary-custom">Primary Button</button>
+<button className="btn-primary-outline-custom">Outline Button</button>
+<button className="btn-primary-ghost-custom">Ghost Button</button>
+
+// Badges
+<span className="badge-primary-custom">Badge</span>
+<span className="badge-primary-solid-custom">Solid Badge</span>
+
+// Forms
+<input className="input-primary-custom" />
+
+// Cards
+<div className="card-primary-custom">Card Content</div>
+
+3. CSS Variables
+// Inline styles
+<div style={{ backgroundColor: 'var(--color-primary)' }}>
+  Custom Style
+</div>
+
+// CSS-in-JS
+const buttonStyle = {
+  backgroundColor: 'var(--bg-primary)',
+  color: 'var(--text-on-primary)',
+  borderColor: 'var(--border-primary)'
+};
+
+----------------------------------------------------
+icon
+https://react-icons.github.io/react-icons/
+
+-----------------------------------------------------
+
+
+
+ Mock  Screen ด้วย React 
+1. หน้าจอ ที่เป็น Screen 
+1.1 Screen  Assigment Rule
+1.2 Screen  หน้าจอการใช้งาน ปรับเพิ่มจากที่ส่งใน Proposal เช่น 
+  - พวก UX & Header Page & Banner 
+  - การใช้งานเมนูที่เกี่ยวข้อง (ของเดิมเข้าทาง ปุ่ม Application)
+  - เก็บรายละเอียดหน้าจอที่ทำไว้แล้ว
+  - ถ้ามีเวลาพอจะให้ดึงจาก Database
+1.3 Screen Master ที่เกี่ยวข้องกับการ Assigment Rule (Endr Info, Job Type, Team and etc)
+
+Demo
+2. ตัวอย่าง API Process Assignment ให้แจกงานแบบ Round robin , Pool, Specific Assignment ตามหน้าจอข้อ 1.1
+  - ถ้ามีเวลาพอจะให้ดึงจาก Database
+
+
+  Mock  Screen ด้วย React 
+1. หน้าจอ ที่เป็น Screen 
+1.1 Screen  Assigment Rule
+1.2 Screen  หน้าจอการใช้งาน ปรับเพิ่มจากที่ส่งใน Proposal เช่น 
+  - พวก UX & Header Page & Banner 
+  - การใช้งานเมนูที่เกี่ยวข้อง (ของเดิมเข้าทาง ปุ่ม Application)
+  - เก็บรายละเอียดหน้าจอที่ทำไว้แล้ว
+1.3 Screen Master ที่เกี่ยวข้องกับการ Assigment Rule (Endr Info, Job Type, Team and etc)
+
+Demo
+2. ตัวอย่าง API Process Assignment ให้แจกงานแบบ Round robin , Pool, Specific Assignment ตามหน้าจอข้อ 1.1
+
+
+
+
+next config แก้แจ้งเตือนตอน build
+
+import type { NextConfig } from 'next'
+import * as path from 'path'
+
+const nextConfig: NextConfig = {
+  // 📁 Static Assets Optimization
+  compress: true,
+  
+  // 🔒 Server Security Headers
+  poweredByHeader: false,
+  
+  // 🎯 Performance Optimizations - Next.js 15 Compatible
+  serverExternalPackages: [],
+  
+  // ✅ React 19 & Prerender Compatibility
+  experimental: {
+    // ⚡ ปิด partial prerendering เพื่อป้องกันปัญหา
+    ppr: false,
+    
+    // 🔧 Force all pages to be dynamic (หลีกเลี่ยง prerender errors)
+    // serverActions: true,
+  },
+  
+  // 📦 Webpack Configuration
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    if (!dev && !isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@': path.resolve(__dirname, './src'),
+      };
+    }
+    
+    config.module.rules.push({
+      test: /\.(png|jpe?g|gif|svg|ico)$/,
+      type: 'asset/resource',
+    });
+    
+    // ✅ Handle React 19 compatibility issues
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        crypto: false,
+      };
+    }
+    
+    // ✅ Handle dynamic import issues
+    config.optimization = {
+      ...config.optimization,
+      splitChunks: {
+        ...config.optimization.splitChunks,
+        cacheGroups: {
+          ...config.optimization.splitChunks?.cacheGroups,
+          default: false,
+          vendors: false,
+          // Create a separate chunk for problematic libraries
+          vendor: {
+            chunks: 'all',
+            name: 'vendor',
+            test: /[\\/]node_modules[\\/]/,
+            priority: 20,
+          },
+        },
+      },
+    };
+    
+    return config;
+  },
+  
+  // 🖼️ Image Optimization
+  images: {
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 31536000,
+  },
+  
+  // 🛡️ Security Headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+  
+  // 🔧 TypeScript Configuration
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  
+  // ⚡ Build Optimizations
+  generateEtags: true,
+  httpAgentOptions: {
+    keepAlive: true,
+  },
+};
+
+export default nextConfig;
+
+หรือ
+const nextConfig: NextConfig = {
+  // ... config อื่น ๆ
+  
+  // 🚨 Emergency fix: Skip build errors (ไม่แนะนำสำหรับ production)
+  typescript: {
+    ignoreBuildErrors: true, // ✅ Skip TypeScript errors ชั่วคราว
+  },
+  eslint: {
+    ignoreDuringBuilds: true, // ✅ Skip ESLint errors ชั่วคราว
+  },
+  
+  // 🔧 Force all pages to be dynamic
+  experimental: {
+    ppr: false,
+  },
+}
+
+

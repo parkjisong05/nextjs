@@ -12,6 +12,8 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
+    "@datadog/browser-rum": "^7.6.0",
+    "@datadog/browser-rum-nextjs": "^7.6.0",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",

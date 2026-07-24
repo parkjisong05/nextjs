@@ -13,8 +13,8 @@ export function DatadogInit() {
       return;
     }
 
-    const applicationId = '46c20008-88ec-449d-ac1d-db5c7536c6fd';
-    const clientToken = 'pub6d24adad489bbf9690f729f99d3f7403';
+    const applicationId = '6ddac1d1-0fa2-438a-8b28-3644459c7d0a';
+    const clientToken = 'pub85ef1a9278536f531e245c4e4e7a9612';
     const service = process.env.NEXT_PUBLIC_DATADOG_SERVICE ?? process.env.NEXT_PUBLIC_APP_NAME;
     const env = process.env.NEXT_PUBLIC_DATADOG_ENV ?? process.env.NODE_ENV;
     const version = process.env.NEXT_PUBLIC_DATADOG_VERSION ?? process.env.NEXT_PUBLIC_APP_VERSION;
@@ -31,7 +31,7 @@ export function DatadogInit() {
       env,
       version,
       sessionSampleRate: 100,
-      sessionReplaySampleRate: 20,
+      sessionReplaySampleRate: 100,
       trackResources: true,
       trackUserInteractions: true,
       trackLongTasks: true,

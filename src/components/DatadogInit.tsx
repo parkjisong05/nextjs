@@ -13,8 +13,8 @@ export function DatadogInit() {
       return;
     }
 
-    const applicationId = '6ddac1d1-0fa2-438a-8b28-3644459c7d0a';
-    const clientToken = 'pub85ef1a9278536f531e245c4e4e7a9612';
+    const applicationId = '8b4d8c8b-ba37-4d4a-8ca7-60f24dd768df';
+    const clientToken = 'pub30861a5de9803bbd361e0b07800bb8d9';
     const service = process.env.NEXT_PUBLIC_DATADOG_SERVICE ?? process.env.NEXT_PUBLIC_APP_NAME;
     const env = process.env.NEXT_PUBLIC_DATADOG_ENV ?? process.env.NODE_ENV;
     const version = process.env.NEXT_PUBLIC_DATADOG_VERSION ?? process.env.NEXT_PUBLIC_APP_VERSION;
